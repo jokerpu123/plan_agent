@@ -1,5 +1,7 @@
 # 智能日程规划 Agent
 
+`plan_agent` — A front-end and back-end schedule planning system with an assistant agent for operation support.
+
 通过自然语言管理任务、生成多日计划，并在人工确认后将计划写入日程。项目包含 Vue 3 前端、Spring Boot 业务服务与基于 LangGraph 的 Python Agent 服务。
 
 ## 功能与设计
