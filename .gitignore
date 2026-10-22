@@ -1,0 +1,37 @@
+# Local archives and private working documents
+/.local-archive/
+/.codex*/
+/.agents/
+/outputs/
+/resume_work/
+.idea/
+.vscode/
+
+# Credentials and machine-specific configuration
+.env
+.env.*
+!.env.example
+application-local.yml
+application-local.yaml
+*.pem
+*.key
+
+# Dependencies, builds and caches
+node_modules/
+dist/
+target/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Runtime output
+*.log
+*.log.*
+hs_err_pid*
+replay_pid*
+*.session.sql
+Thumbs.db
+.DS_Store

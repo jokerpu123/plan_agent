@@ -1,0 +1,2 @@
+-r requirements.txt
+openapi-python-client>=0.29,<0.30

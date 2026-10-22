@@ -1,0 +1,59 @@
+spring:
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/plan_db?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  # JPA配置
+  jpa:
+    hibernate:
+      ddl-auto: update  # 自动创建/更新表结构
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  # 邮件配置（以QQ邮箱为例，需开启SMTP）
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  
+# 服务端口
+server:
+  port: 8080
+
+# 跨域配置
+cors:
+  allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:8082}  # 前端地址
+
+# 阿里云短信 API 配置
+# 将真实参数设置到系统环境变量中，不要把 AccessKey 明文写进此文件。
+aliyun:
+  sms:
+    enabled: ${SMS_ENABLED:false}
+    endpoint: dysmsapi.aliyuncs.com
+    region-id: cn-hangzhou
+    access-key-id: ${ALIYUN_ACCESS_KEY_ID:}
+    access-key-secret: ${ALIYUN_ACCESS_KEY_SECRET:}
+    sign-name: 你的短信签名名称
+    template-code: SMS_XXXXXXXXX
+
+# OpenAPI is enabled by default for local development and can be disabled in production.
+springdoc:
+  api-docs:
+    enabled: ${OPENAPI_ENABLED:true}
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: ${SWAGGER_UI_ENABLED:true}
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha

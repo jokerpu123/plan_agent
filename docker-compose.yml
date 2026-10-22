@@ -1,0 +1,12 @@
+services:
+  redis:
+    image: redis/redis-stack-server:latest
+    container_name: plan-redis
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    volumes:
+      - plan_redis_data:/data
+
+volumes:
+  plan_redis_data:
