@@ -31,84 +31,11 @@ plan-website-backend/     Java 业务接口、排期校验与数据模型
 plan-website-frontend/    Vue 3 页面与聊天面板
 docker-compose.yml       本地 Redis Stack
 ```
-
 `generated/plan_api_client` 是运行依赖，保留在仓库中；依赖目录、编译产物、日志和本地凭据不提交。
 
 ## 本地启动
 
 准备 Python 3.11+、JDK 21、Maven、Node.js 20+、MySQL 8 和 Docker。以下命令在 PowerShell 中运行，三个服务分别使用独立终端。
-
-### 1. Redis 与 MySQL
-
-在仓库根目录执行：
-
-```powershell
-docker compose up -d redis
-```
-
-Redis 使用主机端口 `6380`。检查点依赖 Redis Stack 的扩展能力，不能直接替换成未安装对应模块的普通 Redis。
-
-在本地 MySQL 中创建数据库：
-
-```sql
-CREATE DATABASE IF NOT EXISTS plan_db CHARACTER SET utf8mb4;
-```
-
-### 2. Spring Boot
-
-确保 `JAVA_HOME` 指向 JDK 21。
-
-```powershell
-cd plan-website-backend
-$env:DB_USERNAME = "root"
-$env:DB_PASSWORD = "your-local-database-password"
-mvn spring-boot:run
-```
-
-默认服务地址：`http://localhost:8080`；OpenAPI：`http://localhost:8080/v3/api-docs`。
-可通过 `SPRING_DATASOURCE_URL` 覆盖数据库地址。邮件参数使用 `MAIL_USERNAME`、`MAIL_PASSWORD`；短信默认关闭，需要启用时配置 `SMS_ENABLED`、`ALIYUN_ACCESS_KEY_ID` 和 `ALIYUN_ACCESS_KEY_SECRET`，并填写业务签名与模板。
-
-### 3. Agent
-
-```powershell
-cd plan-agent-service
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-Copy-Item .env.example .env
-```
-
-编辑 `.env`，填写自己的 `OPENAI_API_KEY`，按供应商配置 `OPENAI_API_BASE` 与 `OPENAI_MODEL`。随后启动：
-
-```powershell
-.\.venv\Scripts\python.exe run.py
-```
-
-默认服务地址：`http://localhost:8090`。`.env` 已排除在 Git 之外。
-
-### 4. 前端
-
-```powershell
-cd plan-website-frontend
-npm ci
-npm run dev
-```
-
-打开终端显示的地址，默认 `http://localhost:8082`。Vite 将业务请求代理到 8080，将 Agent 请求代理到 8090。
-
-## 开发检查
-
-```powershell
-# 在前端目录
-npm run build
-# 在后端目录
-mvn test
-# 在 Agent 目录
-python -m compileall -q app generated
-```
-
-`tests/smoke_*.py` 是依赖外部服务和模型的集成冒烟脚本，执行前需要准备测试用户与服务，可能创建任务并产生模型费用。它们不是完全离线的单元测试。
-
-业务接口发生变化后，在 Agent 虚拟环境安装 `requirements-dev.txt`，运行 `scripts/generate_client.ps1` 重新生成客户端。
 
 ## 当前边界
 
